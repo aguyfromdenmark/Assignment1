@@ -53,6 +53,7 @@ var signup = React.createClass({
                     <li><a href="/application/signup">Opret bruger</a></li>
                     <li><a href="/api/weather">Hemmeligt vejr - kræver login</a></li>
                     <li><a href="/application/logout">Log ud</a></li>
+                    <li><a href="/application/login/googleAuth">Sign In with Google</a></li>
                 </ul>
                 <h2>Opret Bruger</h2>
                 <form method="POST" action="/application/signup">

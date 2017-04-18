@@ -21,6 +21,12 @@ module.exports = function (passport) {
         failureRedirect: '/signup',
     }));
 
+    app.get('login/googleAuth/callback',
+        passport.authenticate('google', { failureRedirect: '/login' }),
+        function (req, res) {
+            res.redirect('/api/weather');
+        });
+
     router.post('/signup', passport.authenticate('signup', {
         successRedirect: '/api/weather', // redirect to the secure profile section
         failureRedirect: '/signup', // redirect back to the signup page if there is an error
