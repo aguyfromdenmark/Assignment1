@@ -1,29 +1,50 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
-const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
-
-// create user Schema & model
-const UserSchema = new Schema({
-    username: {
-        type: String,
-        required: [true, 'username field is required']
-    },
-    password: {
-        type: String,
-        required: [true, 'Password field is required']
-    }   
+const UserSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    index: { unique: true }
+  },
+  password: String,
+  name: String
 });
-//TODO add correct user info + valiadtion/auth
 
-UserSchema.methods.generateHash = function(password){
-    return bcrypt.hashSync(password,bcrypt.genSaltSync(8),null);
+
+/**
+ * Compare the passed password with the value in the database. A model method.
+ *
+ * @param {string} password
+ * @returns {object} callback
+ */
+UserSchema.methods.comparePassword = function comparePassword(password, callback) {
+  bcrypt.compare(password, this.password, callback);
 };
 
-UserSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
-};
 
-const User = mongoose.model('user', UserSchema);
+/**
+ * The pre-save hook method.
+ */
+UserSchema.pre('save', function saveHook(next) {
+  const user = this;
 
-module.exports = User;
+  // proceed further only if the password is modified or the user is new
+  if (!user.isModified('password')) return next();
+
+
+  return bcrypt.genSalt((saltError, salt) => {
+    if (saltError) { return next(saltError); }
+
+    return bcrypt.hash(user.password, salt, (hashError, hash) => {
+      if (hashError) { return next(hashError); }
+
+      // replace a password string with hash value
+      user.password = hash;
+
+      return next();
+    });
+  });
+});
+
+
+module.exports = mongoose.model('User', UserSchema);

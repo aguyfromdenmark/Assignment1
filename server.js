@@ -15,7 +15,6 @@ app.use(express.static('public'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(session({ secret: 'verySecretSecret' }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -23,11 +22,14 @@ app.use(flash());
 var initPassport = require('./app/passport/init');
 initPassport(passport);
 
-var apiRoute = require('./app/routes/api')(passport);
+const authCheckMiddleware = require('./app/middleware/auth-check');
+
+var apiRoute = require('./app/routes/api');
+app.use('/api',authCheckMiddleware);
 app.use('/api', apiRoute);
 
-var applicationRoute = require('./app/routes/application')(passport);
-app.use('/application',applicationRoute);  
+var authRoute = require('./app/routes/auth');
+app.use('/auth',authRoute);  
 
 /*app.use(function(err,req,res,next){
     res.status(422).send({error:err.message});

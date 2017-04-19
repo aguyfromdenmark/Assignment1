@@ -1,42 +1,57 @@
-var LocalStrategy   = require('passport-local').Strategy;
-var User = require('../models/usermodel');
-var bCrypt = require('bcrypt-nodejs');
-
-module.exports = function(passport){
-
-	passport.use('login', new LocalStrategy({
-            passReqToCallback : true
-        },
-        function(req, username, password, done) { 
-            // check in mongo if a user with username exists or not
-            User.findOne({ 'username' :  username }, 
-                function(err, user) {
-                    console.log(user);
-                    // In case of any error, return using the done method
-                    if (err)
-                        return done(err);
-                    // Username does not exist, log the error and redirect back
-                    if (!user){
-                        console.log('User Not Found with username '+username);
-                        return done(null, false, req.flash('message', 'User Not found.'));                 
-                    }
-                    // User exists but wrong password, log the error 
-                    if (!isValidPassword(user, password)){
-                        console.log('Invalid Password');
-                        return done(null, false, req.flash('message', 'Invalid Password')); // redirect back to login page
-                    }
-                    // User and password both match, return user from done method
-                    // which will be treated like success
-                    return done(null, user);
-                }
-            );
-
-        })
-    );
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
+const User = require('../models/usermodel');
+const PassportLocalStrategy = require('passport-local').Strategy;
+const config = require('./../config');
 
 
-    var isValidPassword = function(user, password){
-        return bCrypt.compareSync(password, user.password);
+/**
+ * Return the Passport Local Strategy object.
+ */
+module.exports = new PassportLocalStrategy({
+  usernameField: 'username',
+  passwordField: 'password',
+  session: false,
+  passReqToCallback: true
+}, (req, username, password, done) => {
+  const userData = {
+    username: username.trim(),
+    password: password.trim()
+  };
+
+  // find a user by email address
+  return User.findOne({ username: userData.username }, (err, user) => {
+    if (err) { return done(err); }
+
+    if (!user) {
+      const error = new Error('Incorrect username or password');
+      error.name = 'IncorrectCredentialsError';
+
+      return done(error);
     }
-    
-}
+
+    // check if a hashed user's password is equal to a value saved in the database
+    return user.comparePassword(userData.password, (passwordErr, isMatch) => {
+      if (err) { return done(err); }
+
+      if (!isMatch) {
+        const error = new Error('Incorrect username or password');
+        error.name = 'IncorrectCredentialsError';
+
+        return done(error);
+      }
+
+      const payload = {
+        sub: user._id
+      };
+
+      // create a token string
+      const token = jwt.sign(payload, config.jwtSecret);
+      const data = {
+        username: user.username
+      };
+
+      return done(null, token, data);
+    });
+  });
+});
