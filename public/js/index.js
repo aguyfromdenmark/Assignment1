@@ -15,6 +15,7 @@ var App = React.createClass({
                 <Route path={"/application/signup"} component={signup}></Route>
                 <Route path={"/application/login"} component={login}></Route>
                 <Route path={"/api/weather"} component={weather}></Route>
+                <Route path={"/getDetails"} component={testApi}></Route>
             </Router>
         );
     }
@@ -32,6 +33,7 @@ var index = React.createClass({
                     <li><a href="/application/signup">Opret bruger</a></li>
                     <li><a href="/api/weather">Hemmeligt vejr - kræver login</a></li>
                     <li><a href="/application/logout">Log ud</a></li>
+                    <li><a href="/getDetails">Get some api</a></li>
                 </ul>
                 <h2>Forside</h2>
                 <p>Du var adgang til det hemmelige vejr ved at: </p>
@@ -87,7 +89,6 @@ var login = React.createClass({
                     <input type="text" name="password" placeholder="password" />
                     <button type="submit">Login!</button>
                 </form>
-
             </div >
         );
     }
@@ -134,8 +135,8 @@ var login = React.createClass({
             })
         })
     }
-});
-*/
+});*/
+
 
 
 //Create weather component
@@ -145,6 +146,20 @@ var weather = React.createClass({
 
             <Fetch url="http://api.openweathermap.org/data/2.5/weather?q=Aalborg,dk&units=metric&APPID=795043e0553dcbf7a1583bcf6ce13f17">
                 <TestComponent />
+                
+            </Fetch>
+        );
+    }
+});
+
+var testApi = React.createClass({
+    render:function(){
+        return (
+            <Fetch url="api/details">
+                <p>{this.props.Name}</p>
+                <p>{this.props.Details}</p>
+                <p>{this.props.Something}</p>
+                
             </Fetch>
         );
     }

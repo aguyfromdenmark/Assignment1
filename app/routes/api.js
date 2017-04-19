@@ -21,5 +21,9 @@ module.exports = function (passport) {
         res.sendFile(path.resolve(__dirname, '../../', 'public/index.html'));
     });
 
+	router.get('/details',isAuthenticated, function(req,res){
+		res.send({"Name":"Test api","Details":"This is just a test api, to see if stuff works","Something":12312312});
+	});
+
     return router;
 }
