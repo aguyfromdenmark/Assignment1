@@ -1,29 +1,12 @@
 const express = require('express');
-const passport = require('passport');
-const User = require('../models/usermodel');
-const path = require('path');
 
-const router = express.Router();
+const router = new express.Router();
 
-var isAuthenticated = function (req, res, next) {
-	// if user is authenticated in the session, call the next() to call the next request handler 
-	// Passport adds this method to request object. A middleware is allowed to add properties to
-	// request and response objects
-	if (req.isAuthenticated())
-		return next();
-	// if the user is not authenticated then redirect him to the login page
-	res.redirect('/');
-}
+router.get('/details', (req, res) => {
+  res.status(200).json({
+    message: "Hello from server API! I just copy pasted an example to make it work, I don't really know why it works, but fuck that :D"
+  });
+});
 
-module.exports = function (passport) {
 
-    router.get('/weather', isAuthenticated, function (req, res) {
-        res.sendFile(path.resolve(__dirname, '../../', 'public/index.html'));
-    });
-
-	router.get('/details',isAuthenticated, function(req,res){
-		res.send({"Name":"Test api","Details":"This is just a test api, to see if stuff works","Something":12312312});
-	});
-
-    return router;
-}
+module.exports = router;
