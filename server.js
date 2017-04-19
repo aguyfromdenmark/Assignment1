@@ -16,11 +16,12 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
 
-var initPassport = require('./app/passport/init');
-initPassport(passport);
+const localSignupStrategy = require('./app/passport/signup');
+const localLoginStrategy = require('./app/passport/login');
+passport.use('signup', localSignupStrategy);
+passport.use('login', localLoginStrategy);
 
 const authCheckMiddleware = require('./app/middleware/auth-check');
 
