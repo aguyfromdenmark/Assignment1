@@ -5,9 +5,11 @@ import Base from './components/Base.jsx';
 import routes from './routes.js';
 
 //style load test
-// require('../css/index.css');
+ require('../css/index.css');
+
 
 ReactDom.render(
+
 <Base>
-    <Router history={browserHistory} routes={routes} onlyAvailableOnIndex={false} />
+    <Router history={browserHistory} routes={routes}  />
 </Base>, document.getElementById('app-wrapper'));

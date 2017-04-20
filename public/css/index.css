@@ -43,20 +43,26 @@ p, h1, h2 {
 
 
 /*NAV*/
-ul {
-    list-style-type: none;
+/*hiding the janky react nav being rendered outside of a router context as a temporary solution */
+nav {
+    display: none;
+}
+
+#app-wrapper div div nav {
+    display: block;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #43569B;
+
 }
 
-li {
+ nav > div {
     float: left;
 }
 
-li a {
-    display: block;
+nav a {
+    display: inline-block;
     color: white;
     text-align: center;
     padding: 14px 16px;
@@ -64,6 +70,6 @@ li a {
     font-family: sans-serif;
 }
 
-li a:hover {
+nav a:hover {
     background-color: #626F9B;
 }

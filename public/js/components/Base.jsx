@@ -3,28 +3,33 @@ import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
 
 const Base = ({ children }) => (
+
+
     <div>
+        <nav>
+            <div>
+                <Link to="/">Home</Link>
+            </div>
+            {Auth.isUserAuthenticated() ? (
+                <div>
+                    <Link to="/logout">Log out</Link>
+                </div>
+            ) : (
+                    <div>
+                        <Link to="/login">Login</Link>
+                        <Link to="/signup">Sign up</Link>
+                    </div>
+                )}
+        </nav>
+
         <div>
-        <Link to="/">Home</Link>
+            {children}
         </div>
-
-        {Auth.isUserAuthenticated() ? (
-            <div>
-            <Link to="/logout">Log out</Link>
-            </div>
-        ) : (
-            <div>
-                <Link to="/login">Login</Link><br />
-                <Link to="/signup">Sign up</Link>
-            </div>
-        )}
-
-    <div>
-        {children}
     </div>
-    
-    </div>
+
 );
+
+
 
 Base.PropTypes = {
     children: PropTypes.object.isRequired

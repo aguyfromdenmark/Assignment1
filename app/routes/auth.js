@@ -146,24 +146,8 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
+// router.get("*", function(req, res) {
+// res.sendFile(path.resolve(__dirname, '../../', 'public/index.html'));
+// })
+
 module.exports = router;
-
-
-
-
-    //commented most GET's out, as they will be handled by reacts router - moved here for legibility
-    /*    
-    router.get('/', function (req, res) {
-            res.sendFile(path.join(__dirname,'../../','public/index.html'));
-    
-        });
-    
-        router.get('/login', function (req, res) {
-            res.sendFile(path.join(__dirname,'../../','public/login.html'));
-        });
-
-    router.get('/signup', function (req, res) { 
-        //res.sendFile(path.join(__dirname,'../../','public/signup.html')); //__dirname er stien til den mappe hvor denne fil er i, derefter går man to levels tilbae, og så ind i public osv...
-
-    });
-    */
