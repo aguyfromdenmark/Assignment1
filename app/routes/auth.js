@@ -154,18 +154,16 @@ router.post('/login', (req, res, next) => {
 router.get('/google',
   passport.authenticate('google', {
     scope:
-    ['profile emails']
+    ['https://www.googleapis.com/auth/plus.login','profile'],
+    session:false
   }
   ));
 
 router.get('/google/callback',
   passport.authenticate('google', {
-    successRedirect: '/auth/google/profile',
-    failureRedirect: '/auth/google'
+    successRedirect: '/api/details',
+    failureRedirect: '/auth/google',
+    session:false
   }));
-
-router.get('/google/profile', function (req, res) {
-  res.render({ 'user': res.user });
-});
 
 module.exports = router;

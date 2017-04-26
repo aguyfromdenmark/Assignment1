@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -9,6 +10,7 @@ mongoose.connect("mongodb://localhost/assignment1");
 mongoose.Promise = global.Promise;
 
 app.use(express.static('public'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(passport.initialize());
@@ -27,7 +29,7 @@ app.use('/api',authCheckMiddleware);
 app.use('/api', apiRoute);
 
 var authRoute = require('./app/routes/auth');
-app.use('/auth',authRoute);  
+app.use('/auth',authRoute);
 
 /*app.use(function(err,req,res,next){
     res.status(422).send({error:err.message});
