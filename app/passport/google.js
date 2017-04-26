@@ -9,12 +9,13 @@ var User = require('../models/usermodel');
 
 module.exports = function (passport) {
     passport.use(new GoogleStrategy({
-        clientID: "350623855037-dff4lug3k58a2fs670cm16l09eb9rllo.apps.googleusercontent.com",
-        clientSecret: "8GhtXj0tXteYHv2KI8Q6Ndp1",
-        callbackURL: "http://127.0.0.1:4000/application/login/googleAuth"
+        clientID: "683974318345-7uge9327feqpcim39narlq01a6mqr9bu.apps.googleusercontent.com",
+        clientSecret: "SUc2hoqfEFTNAp6JqOc1cwyV",
+        callbackURL: "http://127.0.0.1:4000/application/login/googleAuth",
+        passReqToCallback : true
     },
         function (accessToken, refreshToken, profile, done) {
-            User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            User.findOrCreate({ username: profile.id }, function (err, user) {
                 return done(err, user);
             });
         }

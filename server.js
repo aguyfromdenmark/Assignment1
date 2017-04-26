@@ -15,8 +15,10 @@ app.use(passport.initialize());
 
 const localSignupStrategy = require('./app/passport/signup');
 const localLoginStrategy = require('./app/passport/login');
+const googleStrategy = require('./app/passport/google');
 passport.use('signup', localSignupStrategy);
 passport.use('login', localLoginStrategy);
+passport.use('google',googleStrategy);
 
 const authCheckMiddleware = require('./app/middleware/auth-check');
 

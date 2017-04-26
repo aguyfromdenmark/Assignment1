@@ -150,4 +150,22 @@ router.post('/login', (req, res, next) => {
 // res.sendFile(path.resolve(__dirname, '../../', 'public/index.html'));
 // })
 
+//GOOGLE STUFF TESTING
+router.get('/google',
+  passport.authenticate('google', {
+    scope:
+    ['profile emails']
+  }
+  ));
+
+router.get('/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/auth/google/profile',
+    failureRedirect: '/auth/google'
+  }));
+
+router.get('/google/profile', function (req, res) {
+  res.render({ 'user': res.user });
+});
+
 module.exports = router;
