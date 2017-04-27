@@ -9,7 +9,7 @@ const routes = {
   childRoutes: [
     {
       path: '/',
-      component:Base
+      component:HomePage
     }
 
   ]
