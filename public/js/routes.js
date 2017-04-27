@@ -3,6 +3,7 @@ import HomePage from './components/HomePage.jsx';
 import DashboardPage from './containers/DashboardPage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
+import GoogleLoginPage from '/.containers/GoogleLoginPage.jsx';
 import Auth from './modules/Auth';
 
 
