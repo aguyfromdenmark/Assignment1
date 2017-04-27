@@ -17,7 +17,6 @@ const Base = ({ children }) => (
             ) : (
                     <div>
                         <Link to="/login">Login</Link>
-                        {/*<Link to "/googleLogin">Login with google</Link>*/}
                         <Link to="/signup">Sign up</Link>
                     </div>
                 )}
