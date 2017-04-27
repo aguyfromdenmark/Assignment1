@@ -1,10 +1,6 @@
 import Base from './components/Base.jsx';
 import HomePage from './components/HomePage.jsx';
 import DashboardPage from './containers/DashboardPage.jsx';
-import LoginPage from './containers/LoginPage.jsx';
-import SignUpPage from './containers/SignUpPage.jsx';
-import GoogleLoginPage from '/.containers/GoogleLoginPage.jsx';
-import Auth from './modules/Auth';
 
 
 const routes = {
@@ -13,38 +9,7 @@ const routes = {
   childRoutes: [
     {
       path: '/',
-      getComponent: (location, callback) => {
-        if (Auth.isUserAuthenticated()) {
-          callback(null, DashboardPage);
-        } else {
-          callback(null, HomePage);
-        }
-      }
-    },
-
-    {
-      path: '/login',
-      component: LoginPage
-    },
-
-    {
-      path: '/signup',
-      component: SignUpPage
-    },
-
-    {
-      path: '/googleLogin',
-      component:GoogleLoginPage
-    },
-
-    {
-      path: '/logout',
-      onEnter: (nextState, replace) => {
-        Auth.deauthenticateUser();
-
-        // change the current URL to /
-        replace('/');
-      }
+      component:Base
     }
 
   ]

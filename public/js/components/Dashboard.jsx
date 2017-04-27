@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
-import Auth from '../modules/Auth';
 
 
 //Quick Example for looping through an array, the array is returned from the api
