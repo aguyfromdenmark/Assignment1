@@ -32,6 +32,11 @@ const routes = {
     },
 
     {
+      path: '/googleLogin',
+      component:GoogleLoginPage
+    },
+
+    {
       path: '/logout',
       onEnter: (nextState, replace) => {
         Auth.deauthenticateUser();

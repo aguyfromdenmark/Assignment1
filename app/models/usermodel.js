@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const findOrCreate = require('mongoose-findorcreate');
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -10,7 +11,7 @@ const UserSchema = new mongoose.Schema({
   name: String
 });
 
-
+UserSchema.plugin(findOrCreate);
 /**
  * Compare the passed password with the value in the database. A model method.
  *
